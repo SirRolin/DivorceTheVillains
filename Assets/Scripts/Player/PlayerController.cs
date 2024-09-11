@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
     void OnLook(InputValue rot){
         if (!photonView.IsMine) return;
         // camAnchor check due to unity bug telling us it's not assigned, while it's assigned
-        if(!ragdolled && camAnchor != null){
+        if(camAnchor != null){
             Vector2 inputRot = rot.Get<Vector2>();
             Vector3 camRot = camAnchor.rotation.eulerAngles;
             Vector3 playerRot = orientation.rotation.eulerAngles;
