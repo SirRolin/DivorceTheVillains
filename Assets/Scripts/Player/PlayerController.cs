@@ -1,4 +1,5 @@
 using System;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     [Range(0f,2f)]
     private float jumpCayotte = 0.25f;
+    private bool hasCoyotteJumpped = false;
     [SerializeField]
     [Range(0f,10f)]
     private float jumpCooldown = 1f;
@@ -59,10 +61,11 @@ public class PlayerController : MonoBehaviour
 
 
     public bool ragdolled = false;
-
-
+    private PhotonView photonView;
     private Rigidbody rb;
+    
     void Start(){
+        photonView = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         if(rb == null) this.enabled = false;
         if(orientation == null){
@@ -87,6 +90,7 @@ public class PlayerController : MonoBehaviour
             if(grounded){
                 if(groundedFor < 0) groundedFor = 0;
                 groundedFor += Time.deltaTime;
+                if(rb.linearVelocity.y < 0) hasCoyotteJumpped = false;
             } else {
                 if(groundedFor > 0) groundedFor = 0;
                 groundedFor -= Time.deltaTime;
@@ -101,6 +105,7 @@ public class PlayerController : MonoBehaviour
             // Jumping
             if(wantsToJump && readyToJump && CanCayotte()){
                 readyToJump = false;
+                hasCoyotteJumpped = true;
                 Jump();
                 Invoke(nameof(ResetJump), jumpCooldown);
             }
@@ -118,6 +123,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnJump(InputValue input){
+        if (!photonView.IsMine) return;
         wantsToJump = input.isPressed;
     }
 
@@ -131,10 +137,11 @@ public class PlayerController : MonoBehaviour
     }
 
     bool CanCayotte(){
-        return groundedFor > -jumpCayotte;
+        return !hasCoyotteJumpped && groundedFor > -jumpCayotte;
     }
 
     void OnLook(InputValue rot){
+        if (!photonView.IsMine) return;
         // camAnchor check due to unity bug telling us it's not assigned, while it's assigned
         if(!ragdolled && camAnchor != null){
             Vector2 inputRot = rot.Get<Vector2>();
@@ -152,6 +159,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnMove(InputValue dir){
+        if (!photonView.IsMine) return;
         if(!ragdolled){
             currentDir = dir.Get<Vector2>();
         } else {
