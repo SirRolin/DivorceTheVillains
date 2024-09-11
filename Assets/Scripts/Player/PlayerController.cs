@@ -1,5 +1,6 @@
 using System;
 using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour
     private PhotonView photonView;
     private Rigidbody rb;
     
-    void Start(){
+    void Awake(){
         photonView = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         if(rb == null) this.enabled = false;
@@ -72,6 +73,12 @@ public class PlayerController : MonoBehaviour
             this.enabled = false;
             Debug.Log("orientation Missing on " + this.name);
         }
+        GetComponent<DeathManager>().OnDeath += OnDeath;
+    }
+
+    void OnDeath(){
+        ragdolled = true;
+        rb.freezeRotation = false;
     }
 
     void Update(){
