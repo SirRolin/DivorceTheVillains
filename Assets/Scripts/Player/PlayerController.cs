@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,7 +8,7 @@ using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Header("Camera")]
     [SerializeField]
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     [Range(0f,2f)]
     private float jumpCayotte = 0.25f;
-    private bool hasCoyotteJumpped = false;
+    private bool hasCoyotteJumped = false;
     [SerializeField]
     [Range(0f,10f)]
     private float jumpCooldown = 1f;
@@ -62,11 +63,11 @@ public class PlayerController : MonoBehaviour
 
 
     public bool ragdolled = false;
-    private PhotonView photonView;
+    //private PhotonView photonView;
     private Rigidbody rb;
     
     void Awake(){
-        photonView = GetComponent<PhotonView>();
+        //photonView = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         if(rb == null) this.enabled = false;
         if(orientation == null){
@@ -97,7 +98,7 @@ public class PlayerController : MonoBehaviour
             if(grounded){
                 if(groundedFor < 0) groundedFor = 0;
                 groundedFor += Time.deltaTime;
-                if(rb.linearVelocity.y < 0) hasCoyotteJumpped = false;
+                if(rb.linearVelocity.y < 0) hasCoyotteJumped = false;
             } else {
                 if(groundedFor > 0) groundedFor = 0;
                 groundedFor -= Time.deltaTime;
@@ -112,7 +113,7 @@ public class PlayerController : MonoBehaviour
             // Jumping
             if(wantsToJump && readyToJump && CanCayotte()){
                 readyToJump = false;
-                hasCoyotteJumpped = true;
+                hasCoyotteJumped = true;
                 Jump();
                 Invoke(nameof(ResetJump), jumpCooldown);
             }
@@ -139,12 +140,12 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Jump(){
-        rb.linearVelocity.Set(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        rb.linearVelocity.Set(rb.linearVelocity.x, 5, rb.linearVelocity.z);
         rb.AddForce(Vector3.up * jumpHeight * 100f);
     }
 
     bool CanCayotte(){
-        return !hasCoyotteJumpped && groundedFor > -jumpCayotte;
+        return !hasCoyotteJumped && groundedFor > -jumpCayotte;
     }
 
     void OnLook(InputValue rot){
@@ -175,5 +176,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        throw new NotImplementedException();
+        if(stream.IsWriting){
+            stream.SendNext(currentDir);
+            stream.SendNext(wantsToJump);
+        } else {
+            currentDir = (Vector2) stream.ReceiveNext();
+            wantsToJump = (bool) stream.ReceiveNext();
+        }
+    }
 }
