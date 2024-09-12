@@ -1,5 +1,6 @@
 using System;
 using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour
     private PhotonView photonView;
     private Rigidbody rb;
     
-    void Start(){
+    void Awake(){
         photonView = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         if(rb == null) this.enabled = false;
@@ -72,6 +73,12 @@ public class PlayerController : MonoBehaviour
             this.enabled = false;
             Debug.Log("orientation Missing on " + this.name);
         }
+        GetComponent<DeathManager>().OnDeath += OnDeath;
+    }
+
+    void OnDeath(){
+        ragdolled = true;
+        rb.freezeRotation = false;
     }
 
     void Update(){
@@ -143,7 +150,7 @@ public class PlayerController : MonoBehaviour
     void OnLook(InputValue rot){
         if (!photonView.IsMine) return;
         // camAnchor check due to unity bug telling us it's not assigned, while it's assigned
-        if(!ragdolled && camAnchor != null){
+        if(camAnchor != null){
             Vector2 inputRot = rot.Get<Vector2>();
             Vector3 camRot = camAnchor.rotation.eulerAngles;
             Vector3 playerRot = orientation.rotation.eulerAngles;

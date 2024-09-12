@@ -18,7 +18,7 @@ public class SpawnManager : MonoBehaviour
     private void SpawnPlayer()
     {
         currentPlayer = Instantiate(playerPrefab, new Vector3(0,1,0), Quaternion.identity);
-        currentPlayer.GetComponent<HealthScript>().onDeath += OnDeath;
+        currentPlayer.GetComponent<DeathManager>().OnDeath += OnDeath;
     }
 
     private void OnDeath(){

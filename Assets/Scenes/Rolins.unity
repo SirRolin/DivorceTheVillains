@@ -412,6 +412,10 @@ PrefabInstance:
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2793507953732025258, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
+      propertyPath: jumpCayotte
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2793507953732025258, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
       propertyPath: orientation
       value: 
       objectReference: {fileID: 1594200256}
@@ -434,6 +438,14 @@ PrefabInstance:
     - target: {fileID: 3134563184823236866, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3478959513181423589, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3478959513181423589, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
+      propertyPath: OwnershipTransfer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4945207587995218207, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
       propertyPath: m_LocalPosition.x
