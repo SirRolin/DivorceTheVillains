@@ -67,11 +67,11 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
         private Rigidbody rb;
         
         void Awake(){
-            this.rb = GetComponent<Rigidbody>();
-            if(rb == null) this.enabled = false;
+            rb = GetComponent<Rigidbody>();
+            if(rb == null) enabled = false;
             if(orientation == null){
-                this.enabled = false;
-                Debug.Log("orientation Missing on " + this.name);
+                enabled = false;
+                Debug.Log("orientation Missing on " + name);
             }
         }
 
@@ -83,14 +83,24 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
         void Update(){
             if(!ragdolled){
                 // ground check
-                grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight/2 + 0.2f, whatIsGround);    
+                grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight/2 + 0.2f, whatIsGround);  
 
                 // drag to slow down while on ground
                 rb.linearDamping = grounded ? groundDrag : 0;
 
                 // try to move
                 Vector3 moveDir = orientation.forward * currentDir.y + orientation.right * currentDir.x;
-                rb.AddForce((grounded ? 1f : airSpeed) * 25f * maxSpeed * moveDir.normalized, ForceMode.Force);
+                rb.AddForce(((groundedFor > Time.deltaTime * 2) ? 1f : airSpeed) * 10000f * maxSpeed * moveDir.normalized * Time.deltaTime, ForceMode.Force);
+
+                Vector2 perpendicularDir = new Vector2(-moveDir.z, moveDir.x);
+                Vector2 velocityDir = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z);
+                //Debug.Log("perpendicularDir: " + perpendicularDir + " - velocityDir: " + velocityDir + " - dot(move, vel): " + Vector2.Dot(moveDir.normalized, velocityDir.normalized) + " - dot(move, perp): " + Vector2.Dot(moveDir.normalized, perpendicularDir.normalized));
+                if(moveDir.magnitude > 0 &&Vector2.Dot(moveDir.normalized, velocityDir.normalized) < Vector2.Dot(moveDir.normalized, perpendicularDir.normalized)){
+                    Vector2 newVelocityDir = Vector2.Dot(velocityDir, perpendicularDir.normalized) * perpendicularDir.normalized * (1f + Time.deltaTime * 0.1f);
+                    //rb.useGravity = false; 
+                    rb.linearVelocity = new Vector3(newVelocityDir.x, rb.linearVelocity.y, newVelocityDir.y);
+                    //rb.useGravity = true; 
+                }  
 
                 // timer for how long we've been grounded, negative being not grounded (for cayotte time)
                 if(grounded){
@@ -138,8 +148,8 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
         }
 
         private void Jump(){
-            rb.linearVelocity.Set(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-            rb.AddForce(100f * jumpHeight * Vector3.up);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            rb.AddForce(Vector3.up * jumpHeight * 250f, ForceMode.Force);
         }
 
         bool CanCayotte(){
