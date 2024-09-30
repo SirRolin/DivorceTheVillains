@@ -26,9 +26,9 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
 
         [Header("Speed")]
         [SerializeField]
-        [Range(0f,10f)]
+        [Range(0f,100f)]
         private float maxSpeed = 1f;
-        private Vector2 currentDir = new Vector2(0,0);
+        private Vector2 currentDir = new(0,0);
 
         [SerializeField]
         [Range(0f,1f)]
@@ -90,7 +90,7 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
 
                 // try to move
                 Vector3 moveDir = orientation.forward * currentDir.y + orientation.right * currentDir.x;
-                rb.AddForce((grounded ? 1f : airSpeed) * 10f * maxSpeed * moveDir.normalized, ForceMode.Force);
+                rb.AddForce((grounded ? 1f : airSpeed) * 25f * maxSpeed * moveDir.normalized, ForceMode.Force);
 
                 // timer for how long we've been grounded, negative being not grounded (for cayotte time)
                 if(grounded){
@@ -120,7 +120,7 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
 
         void SpeedControl(){
             // z becomes y
-            Vector2 flatVel = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z);
+            Vector2 flatVel = new(rb.linearVelocity.x, rb.linearVelocity.z);
             if(flatVel.magnitude > maxSpeed){
                 Vector2 limitedVel = flatVel.normalized * maxSpeed;
                 // y becomes z again.
@@ -139,7 +139,7 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
 
         private void Jump(){
             rb.linearVelocity.Set(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-            rb.AddForce(Vector3.up * jumpHeight * 100f);
+            rb.AddForce(100f * jumpHeight * Vector3.up);
         }
 
         bool CanCayotte(){

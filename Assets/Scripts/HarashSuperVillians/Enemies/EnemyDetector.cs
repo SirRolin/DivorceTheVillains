@@ -9,7 +9,7 @@ public class EnemyDetector : MonoBehaviour, IEnemyDetector
 {
     public event Action<GameObject> OnDetect;
     public Transform eyes;
-    [Serialize]
+    [SerializeField]
     private float viewDistance = 25f;
 
     [Header("Constants")]
@@ -26,14 +26,19 @@ public class EnemyDetector : MonoBehaviour, IEnemyDetector
         foreach(Transform spot in detectspots){
             ray.origin = eyes.position;
             ray.direction = spot.position - eyes.position;
-            if(Physics.Raycast(ray, out RaycastHit hit, viewDistance, ignoreRaycasts)) {
-                Debug.DrawRay(ray.origin, hit.point - ray.origin,  Color.green, 1);
-                if(hit.collider.gameObject.Equals(player)){
-                    detected = true;
-                    break;
-                }
-            } else {
-                Debug.DrawRay(ray.origin, ray.direction, Color.red, 1);
+            if (Physics.Raycast(ray, out RaycastHit hit, viewDistance, ignoreRaycasts) && hit.collider.gameObject.Equals(player))
+            {
+                Debug.DrawRay(ray.origin, hit.point - ray.origin, Color.green, 1);
+                detected = true;
+                break;
+            }
+            else if (hit.collider != null)
+            {
+                Debug.DrawRay(ray.origin, hit.point - ray.origin, Color.red, 1);
+            }
+            else
+            {
+                Debug.DrawRay(ray.origin, Vector3.Normalize(spot.position - ray.origin) * viewDistance, Color.red, 1);
             }
         }
 
