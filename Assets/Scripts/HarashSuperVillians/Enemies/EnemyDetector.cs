@@ -48,8 +48,7 @@ public class EnemyDetector : MonoBehaviour, IEnemyDetector
 
     void Start()
     {
-        ignoreRaycasts = LayerMask.NameToLayer("TransparentFX");
-        Debug.Log(ignoreRaycasts); // 1
+        ignoreRaycasts = ~LayerMask.GetMask("TransparentFX", "ignoreRayCast", "UI", "Water");
         OnDetect += (go) => {Debug.Log("Detected player: " + go.name);};
     }
 }

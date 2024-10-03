@@ -30,14 +30,6 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
         private float maxSpeed = 1f;
         private Vector2 currentDir = new(0,0);
 
-        [SerializeField]
-        [Range(0f,1f)]
-        private float airSpeed;
-        
-        [SerializeField]
-        [Range(0f,1000f)]
-        private float groundDrag;
-
         [Header("Ground Check")]
         [SerializeField] float playerHeight;
         [SerializeField] LayerMask whatIsGround;
@@ -86,20 +78,19 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
                 grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight/2 + 0.2f, whatIsGround);  
 
                 // drag to slow down while on ground
-                rb.linearDamping = grounded ? groundDrag : 0;
+                //rb.linearDamping = grounded ? groundDrag : 0;
 
                 // try to move
                 Vector3 moveDir = orientation.forward * currentDir.y + orientation.right * currentDir.x;
-                rb.AddForce(((groundedFor > Time.deltaTime * 2) ? 1f : airSpeed) * 10000f * maxSpeed * moveDir.normalized * Time.deltaTime, ForceMode.Force);
+                rb.AddForce(1000f * maxSpeed * Time.deltaTime * moveDir.normalized, ForceMode.Force);
+
 
                 Vector2 perpendicularDir = new Vector2(-moveDir.z, moveDir.x);
                 Vector2 velocityDir = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z);
                 //Debug.Log("perpendicularDir: " + perpendicularDir + " - velocityDir: " + velocityDir + " - dot(move, vel): " + Vector2.Dot(moveDir.normalized, velocityDir.normalized) + " - dot(move, perp): " + Vector2.Dot(moveDir.normalized, perpendicularDir.normalized));
-                if(moveDir.magnitude > 0 &&Vector2.Dot(moveDir.normalized, velocityDir.normalized) < Vector2.Dot(moveDir.normalized, perpendicularDir.normalized)){
+                if(moveDir.magnitude > 0 && Vector2.Dot(moveDir.normalized, velocityDir.normalized) < Vector2.Dot(moveDir.normalized, perpendicularDir.normalized)){
                     Vector2 newVelocityDir = Vector2.Dot(velocityDir, perpendicularDir.normalized) * perpendicularDir.normalized * (1f + Time.deltaTime * 0.1f);
-                    //rb.useGravity = false; 
                     rb.linearVelocity = new Vector3(newVelocityDir.x, rb.linearVelocity.y, newVelocityDir.y);
-                    //rb.useGravity = true; 
                 }  
 
                 // timer for how long we've been grounded, negative being not grounded (for cayotte time)
@@ -183,17 +174,5 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
                 currentDir.y = 0;
             }
         }
-        /*
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            throw new NotImplementedException();
-            if(stream.IsWriting){
-                stream.SendNext(currentDir);
-                stream.SendNext(wantsToJump);
-            } else {
-                currentDir = (Vector2) stream.ReceiveNext();
-                wantsToJump = (bool) stream.ReceiveNext();
-            }
-        }*/
     }
 }

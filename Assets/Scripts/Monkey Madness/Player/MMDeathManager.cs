@@ -16,9 +16,13 @@ public class DeathManager : MonoBehaviour
     {
         // if position is lower than altitude check, and you're not already dead, you die.
         if (!isDead && transform.position.y < deathAltitude){
-            isDead = true;
-            OnPreDeath?.Invoke(this);
-            if(isDead) OnDeath?.Invoke();
+            Die();
         }
+    }
+    
+    public void Die(){
+        isDead = true;
+        OnPreDeath?.Invoke(this);
+        if(isDead) OnDeath?.Invoke();
     }
 }
