@@ -271,6 +271,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: wholemap
       objectReference: {fileID: 0}
+    - target: {fileID: 5317212949753515350, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5317212949753515350, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5317212949753515350, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5317212949753515350, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5317212949753515350, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6190832026930799700, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.25
