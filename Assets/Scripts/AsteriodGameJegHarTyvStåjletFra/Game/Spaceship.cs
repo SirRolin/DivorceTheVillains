@@ -14,8 +14,9 @@ using UnityEngine;
 
 using Photon.Pun.UtilityScripts;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Assets.Scripts.AsteriodGameJegHarTyvStåjletFra;
 
-namespace Photon.Pun.Demo.Asteroids
+namespace Photon.Pun.MonkeyMadness.Asteroids
 {
     public class Spaceship : MonoBehaviour
     {
@@ -56,7 +57,7 @@ namespace Photon.Pun.Demo.Asteroids
         {
             foreach (Renderer r in GetComponentsInChildren<Renderer>())
             {
-                r.material.color = AsteroidsGame.GetColor(photonView.Owner.GetPlayerNumber());
+                r.material.color = MonkeyMadnessGame.GetColor(photonView.Owner.GetPlayerNumber());
             }
         }
 
@@ -121,7 +122,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         private IEnumerator WaitForRespawn()
         {
-            yield return new WaitForSeconds(AsteroidsGame.PLAYER_RESPAWN_TIME);
+            yield return new WaitForSeconds(MonkeyMadnessGame.PLAYER_RESPAWN_TIME);
 
             photonView.RPC("RespawnSpaceship", RpcTarget.AllViaServer);
         }
@@ -147,9 +148,9 @@ namespace Photon.Pun.Demo.Asteroids
             if (photonView.IsMine)
             {
                 object lives;
-                if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(AsteroidsGame.PLAYER_LIVES, out lives))
+                if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(MonkeyMadnessGame.PLAYER_LIVES, out lives))
                 {
-                    PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable {{AsteroidsGame.PLAYER_LIVES, ((int) lives <= 1) ? 0 : ((int) lives - 1)}});
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable {{MonkeyMadnessGame.PLAYER_LIVES, ((int) lives <= 1) ? 0 : ((int) lives - 1)}});
 
                     if (((int) lives) > 1)
                     {

@@ -16,8 +16,9 @@ using UnityEngine.UI;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
+using Assets.Scripts.AsteriodGameJegHarTyvStåjletFra;
 
-namespace Photon.Pun.Demo.Asteroids
+namespace Photon.Pun.MonkeyMadness.Asteroids
 {
     public class PlayerOverviewPanel : MonoBehaviourPunCallbacks
     {
@@ -36,8 +37,8 @@ namespace Photon.Pun.Demo.Asteroids
                 GameObject entry = Instantiate(PlayerOverviewEntryPrefab);
                 entry.transform.SetParent(gameObject.transform);
                 entry.transform.localScale = Vector3.one;
-                entry.GetComponent<Text>().color = AsteroidsGame.GetColor(p.GetPlayerNumber());
-                entry.GetComponent<Text>().text = string.Format("{0}\nScore: {1}\nLives: {2}", p.NickName, p.GetScore(), AsteroidsGame.PLAYER_MAX_LIVES);
+                entry.GetComponent<Text>().color = MonkeyMadnessGame.GetColor(p.GetPlayerNumber());
+                entry.GetComponent<Text>().text = string.Format("{0}\nScore: {1}\nLives: {2}", p.NickName, p.GetScore(), MonkeyMadnessGame.PLAYER_MAX_LIVES);
 
                 playerListEntries.Add(p.ActorNumber, entry);
             }
@@ -62,7 +63,7 @@ namespace Photon.Pun.Demo.Asteroids
             GameObject entry;
             if (playerListEntries.TryGetValue(targetPlayer.ActorNumber, out entry))
             {
-                entry.GetComponent<Text>().text = string.Format("{0}\nScore: {1}\nLives: {2}", targetPlayer.NickName, targetPlayer.GetScore(), targetPlayer.CustomProperties[AsteroidsGame.PLAYER_LIVES]);
+                entry.GetComponent<Text>().text = string.Format("{0}\nScore: {1}\nLives: {2}", targetPlayer.NickName, targetPlayer.GetScore(), targetPlayer.CustomProperties[MonkeyMadnessGame.PLAYER_LIVES]);
             }
         }
 
