@@ -199,6 +199,7 @@ PrefabInstance:
     - {fileID: 3478959513181423589, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
     - {fileID: 8914245626806404878, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
     - {fileID: 2793507953732025258, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
+    - {fileID: 5691719936836507005, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
     m_RemovedGameObjects:
     - {fileID: 5153224438860825997, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
     - {fileID: 5548945273238014916, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
@@ -229,6 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eyes: {fileID: 4232771309557849665}
+  viewDistance: 25
 --- !u!4 &4352096848136942964 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3134563184823236866, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
