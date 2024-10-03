@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.38, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3134563184823236866}
   - {fileID: 4925618208100048912}
@@ -158,10 +158,10 @@ MonoBehaviour:
   camSpeedY: 0.1
   camAnchor: {fileID: 1065965587238089298}
   orientation: {fileID: 3134563184823236866}
-  maxSpeed: 10
+  maxSpeed: 4
   airSpeed: 0.092
   groundDrag: 16
-  playerHeight: 1
+  playerHeight: 0.25
   whatIsGround:
     serializedVersion: 2
     m_Bits: 3
@@ -512,7 +512,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 25
+  m_Radius: 100
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4268518286053061908
 MonoBehaviour:
@@ -528,6 +528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectSpots:
   - {fileID: 4945207587995218207}
+  checksPerSecond: 1
 --- !u!1 &5548945273238014916
 GameObject:
   m_ObjectHideFlags: 0

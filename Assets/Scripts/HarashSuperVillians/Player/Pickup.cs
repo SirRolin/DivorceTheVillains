@@ -1,3 +1,4 @@
+using Assets.HarashSuperVillains.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Interactable = Assets.Scripts.HarashSuperVillains.Objects.Interactable;
@@ -24,6 +25,7 @@ namespace Assets.Scripts.HarashSuperVillains.Player{
                     if(hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable)){
                         if(interactable.Interact(objInHand)) {
                             if(interactable.DoesConsume(objInHand)){
+                                Destroy(((Pickupable) objInHand).gameObject);
                                 objInHand = null;
                             }
                         }
