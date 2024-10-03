@@ -13,7 +13,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Photon.Pun.UtilityScripts;
 
-namespace Photon.Pun.Demo.Asteroids
+namespace Photon.Pun.MonkeyMadness.Asteroids
 {
     public class Asteroid : MonoBehaviour
     {

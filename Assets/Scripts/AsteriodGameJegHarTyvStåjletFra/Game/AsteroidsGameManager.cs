@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AsteroidsGameManager.cs" company="Exit Games GmbH">
+// <copyright file="MonkeyMadnessGameManager.cs" company="Exit Games GmbH">
 //   Part of: Asteroid demo
 // </copyright>
 // <summary>
@@ -16,12 +16,13 @@ using UnityEngine.UI;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Assets.Scripts.AsteriodGameJegHarTyvStåjletFra;
 
-namespace Photon.Pun.Demo.Asteroids
+namespace Photon.Pun.MonkeyMadness.Asteroids
 {
-    public class AsteroidsGameManager : MonoBehaviourPunCallbacks
+    public class MonkeyMadnessGameManager : MonoBehaviourPunCallbacks
     {
-        public static AsteroidsGameManager Instance = null;
+        public static MonkeyMadnessGameManager Instance = null;
 
         public Text InfoText;
 
@@ -45,7 +46,7 @@ namespace Photon.Pun.Demo.Asteroids
         {
             Hashtable props = new Hashtable
             {
-                {AsteroidsGame.PLAYER_LOADED_LEVEL, true}
+                {MonkeyMadnessGame.PLAYER_LOADED_LEVEL, true}
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
@@ -60,38 +61,6 @@ namespace Photon.Pun.Demo.Asteroids
         #endregion
 
         #region COROUTINES
-
-        private IEnumerator SpawnAsteroid()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(Random.Range(AsteroidsGame.ASTEROIDS_MIN_SPAWN_TIME, AsteroidsGame.ASTEROIDS_MAX_SPAWN_TIME));
-
-                Vector2 direction = Random.insideUnitCircle;
-                Vector3 position = Vector3.zero;
-
-                if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-                {
-                    // Make it appear on the left/right side
-                    position = new Vector3(Mathf.Sign(direction.x) * Camera.main.orthographicSize * Camera.main.aspect, 0, direction.y * Camera.main.orthographicSize);
-                }
-                else
-                {
-                    // Make it appear on the top/bottom
-                    position = new Vector3(direction.x * Camera.main.orthographicSize * Camera.main.aspect, 0, Mathf.Sign(direction.y) * Camera.main.orthographicSize);
-                }
-
-                // Offset slightly so we are not out of screen at creation time (as it would destroy the asteroid right away)
-                position -= position.normalized * 0.1f;
-
-
-                Vector3 force = -position.normalized * 1000.0f;
-                Vector3 torque = Random.insideUnitSphere * Random.Range(500.0f, 1500.0f);
-                object[] instantiationData = {force, torque, true};
-
-                PhotonNetwork.InstantiateRoomObject("BigAsteroid", position, Quaternion.Euler(Random.value * 360.0f, Random.value * 360.0f, Random.value * 360.0f), 0, instantiationData);
-            }
-        }
 
         private IEnumerator EndOfGame(string winner, int score)
         {
@@ -127,7 +96,6 @@ namespace Photon.Pun.Demo.Asteroids
         {
             if (PhotonNetwork.LocalPlayer.ActorNumber == newMasterClient.ActorNumber)
             {
-                StartCoroutine(SpawnAsteroid());
             }
         }
 
@@ -138,7 +106,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
-            if (changedProps.ContainsKey(AsteroidsGame.PLAYER_LIVES))
+            if (changedProps.ContainsKey(MonkeyMadnessGame.PLAYER_LIVES))
             {
                 CheckEndOfGame();
                 return;
@@ -154,7 +122,7 @@ namespace Photon.Pun.Demo.Asteroids
             int startTimestamp;
             bool startTimeIsSet = CountdownTimer.TryGetStartTime(out startTimestamp);
 
-            if (changedProps.ContainsKey(AsteroidsGame.PLAYER_LOADED_LEVEL))
+            if (changedProps.ContainsKey(MonkeyMadnessGame.PLAYER_LOADED_LEVEL))
             {
                 if (CheckAllPlayerLoadedLevel())
                 {
@@ -195,7 +163,6 @@ namespace Photon.Pun.Demo.Asteroids
 
             if (PhotonNetwork.IsMasterClient)
             {
-                StartCoroutine(SpawnAsteroid());
             }
         }
 
@@ -205,7 +172,7 @@ namespace Photon.Pun.Demo.Asteroids
             {
                 object playerLoadedLevel;
 
-                if (p.CustomProperties.TryGetValue(AsteroidsGame.PLAYER_LOADED_LEVEL, out playerLoadedLevel))
+                if (p.CustomProperties.TryGetValue(MonkeyMadnessGame.PLAYER_LOADED_LEVEL, out playerLoadedLevel))
                 {
                     if ((bool) playerLoadedLevel)
                     {
@@ -226,7 +193,7 @@ namespace Photon.Pun.Demo.Asteroids
             foreach (Player p in PhotonNetwork.PlayerList)
             {
                 object lives;
-                if (p.CustomProperties.TryGetValue(AsteroidsGame.PLAYER_LIVES, out lives))
+                if (p.CustomProperties.TryGetValue(MonkeyMadnessGame.PLAYER_LIVES, out lives))
                 {
                     if ((int) lives > 0)
                     {

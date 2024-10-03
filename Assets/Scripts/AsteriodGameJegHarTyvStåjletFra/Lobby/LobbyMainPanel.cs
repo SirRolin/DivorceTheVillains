@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Photon.Pun.Demo.Asteroids
+namespace Photon.Pun.MonkeyMadness.Asteroids
 {
     public class LobbyMainPanel : MonoBehaviourPunCallbacks
     {

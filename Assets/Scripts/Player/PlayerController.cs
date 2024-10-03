@@ -178,7 +178,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        throw new NotImplementedException();
         if(stream.IsWriting){
             stream.SendNext(currentDir);
             stream.SendNext(wantsToJump);

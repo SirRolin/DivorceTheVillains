@@ -14,8 +14,9 @@ using UnityEngine.UI;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
+using Assets.Scripts.AsteriodGameJegHarTyvStåjletFra;
 
-namespace Photon.Pun.Demo.Asteroids
+namespace Photon.Pun.MonkeyMadness.Asteroids
 {
     public class PlayerListEntry : MonoBehaviour
     {
@@ -36,6 +37,7 @@ namespace Photon.Pun.Demo.Asteroids
             PlayerNumbering.OnPlayerNumberingChanged += OnPlayerNumberingChanged;
         }
 
+        [System.Obsolete]
         public void Start()
         {
             if (PhotonNetwork.LocalPlayer.ActorNumber != ownerId)
@@ -44,7 +46,7 @@ namespace Photon.Pun.Demo.Asteroids
             }
             else
             {
-                Hashtable initialProps = new Hashtable() {{AsteroidsGame.PLAYER_READY, isPlayerReady}, {AsteroidsGame.PLAYER_LIVES, AsteroidsGame.PLAYER_MAX_LIVES}};
+                Hashtable initialProps = new Hashtable() {{MonkeyMadnessGame.PLAYER_READY, isPlayerReady}, {MonkeyMadnessGame.PLAYER_LIVES, MonkeyMadnessGame.PLAYER_MAX_LIVES}};
                 PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps);
                 PhotonNetwork.LocalPlayer.SetScore(0);
 
@@ -53,7 +55,7 @@ namespace Photon.Pun.Demo.Asteroids
                     isPlayerReady = !isPlayerReady;
                     SetPlayerReady(isPlayerReady);
 
-                    Hashtable props = new Hashtable() {{AsteroidsGame.PLAYER_READY, isPlayerReady}};
+                    Hashtable props = new Hashtable() {{MonkeyMadnessGame.PLAYER_READY, isPlayerReady}};
                     PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
                     if (PhotonNetwork.IsMasterClient)
@@ -83,7 +85,7 @@ namespace Photon.Pun.Demo.Asteroids
             {
                 if (p.ActorNumber == ownerId)
                 {
-                    PlayerColorImage.color = AsteroidsGame.GetColor(p.GetPlayerNumber());
+                    PlayerColorImage.color = MonkeyMadnessGame.GetColor(p.GetPlayerNumber());
                 }
             }
         }
