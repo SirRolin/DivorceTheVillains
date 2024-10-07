@@ -30,6 +30,8 @@ public class EnemyDetector : MonoBehaviour, IEnemyDetector
             {
                 Debug.DrawRay(ray.origin, hit.point - ray.origin, Color.green, 1);
                 detected = true;
+                // Alert
+                OnDetect?.Invoke(player);
                 break;
             }
             else if (hit.collider != null)
@@ -41,14 +43,11 @@ public class EnemyDetector : MonoBehaviour, IEnemyDetector
                 Debug.DrawRay(ray.origin, Vector3.Normalize(spot.position - ray.origin) * viewDistance, Color.red, 1);
             }
         }
-
-        // Alert
-        if(detected) OnDetect?.Invoke( player);
     }
 
     void Start()
     {
         ignoreRaycasts = ~LayerMask.GetMask("TransparentFX", "ignoreRayCast", "UI", "Water");
-        OnDetect += (go) => {Debug.Log("Detected player: " + go.name);};
+        //OnDetect += (go) => {Debug.Log("Detected player: " + go.name);};
     }
 }

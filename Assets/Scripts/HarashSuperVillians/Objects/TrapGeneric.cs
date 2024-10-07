@@ -16,6 +16,9 @@ public class PlayerTrapGeneric : MonoBehaviour
 
         [SerializeField]
         private bool isPlayerTrap = false;
+        
+        [SerializeField]
+        private float angerOnTrapped = 10f;
 
         [SerializeField]
         private AnimationClip trappedAnimation;
@@ -87,8 +90,8 @@ public class PlayerTrapGeneric : MonoBehaviour
                 if(isPlayerTrap){
                     // Trigger the player's death using DeathManager
                     triggerer.GetComponent<DeathManager>()?.Die();
-                } else {
-                    
+                } else if(gameObject.TryGetComponent<Anger>(out var angst)) {
+                    angst.ApplyAnger(angerOnTrapped);
                 }
             }
 
