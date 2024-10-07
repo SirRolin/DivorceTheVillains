@@ -22,5 +22,10 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
                 if(isDead) OnDeath?.Invoke();
             }
         }
+         public void Die(){
+        isDead = true;
+        OnPreDeath?.Invoke(this);
+        if(isDead) OnDeath?.Invoke();
+    }
     }
 }

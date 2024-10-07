@@ -7,7 +7,7 @@ namespace Assets.Scripts.HarashSuperVillains.Objects{
   {
     public List<String> interactables = new();
     public List<String> consumes = new();
-    public bool wantOpacity = true;
+    public bool wantOpacity = false;
     public float opacity = 0.3f;
     private bool isConsumed = true;
     public Dictionary<String, Action> OnInteract = new();

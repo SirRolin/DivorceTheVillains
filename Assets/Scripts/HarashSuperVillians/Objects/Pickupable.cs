@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using WebSocketSharp;
 
 namespace Assets.HarashSuperVillains.Objects {
     public class Pickupable : MonoBehaviour, IPickupable
