@@ -10,7 +10,10 @@ namespace Assets.Scripts.HarashSuperVillains.Objects{
     public Dictionary<String, Action> OnInteract = new();
     internal bool Interact(IPickupable objInHand)
     {
-      if(interactables.Contains(objInHand.getID())){
+      if((objInHand == null && interactables.Contains("Empty"))){
+        OnInteract["Empty"]?.Invoke();
+        return true;
+      } else if(objInHand != null && interactables.Contains(objInHand.getID())){
         OnInteract[objInHand.getID()]?.Invoke();
         return true;
       }

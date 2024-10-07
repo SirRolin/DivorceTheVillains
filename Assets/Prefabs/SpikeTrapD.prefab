@@ -270,7 +270,8 @@ GameObject:
   - component: {fileID: 33776582947446772}
   - component: {fileID: 23248802485315498}
   - component: {fileID: 95846521961778924}
-  - component: {fileID: 114953712324284294}
+  - component: {fileID: 4538716062921244945}
+  - component: {fileID: 1214691220301722353}
   m_Layer: 0
   m_Name: SpikeTrapD
   m_TagString: Untagged
@@ -377,7 +378,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &114953712324284294
+--- !u!114 &4538716062921244945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -386,10 +387,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 1498791207746926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbfc9ddd4ef5c6f47afe9453d93658aa, type: 3}
+  m_Script: {fileID: 11500000, guid: d008946b99f5c284e92e16195aca53dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spikeTrapAnim: {fileID: 95846521961778924}
+  closeOnTime: 1
+  closeOnExit: 1
+  waitTime: 2
+  triggerTimeBeforeHit: 1
+  isPlayerTrap: 1
+  angerOnTrapped: 10
+  isActivatedBy: 
+  consumesItem: 0
+  triggerCollider: {fileID: 1214691220301722353}
+  hasBeenActivated: 1
+  armedAnimation: {fileID: 0}
+  unarmedAnimation: {fileID: 7400000, guid: a605ef85a4649cb4085007211da41085, type: 2}
+  triggeredAnimation: {fileID: 7400000, guid: 1ec3eca50500be8479d8aee540c8c048, type: 2}
+  triggeredAnimationReversed: 0
+  personOnTriggeredAnimation: {fileID: 0}
+--- !u!65 &1214691220301722353
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498791207746926}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.0000005, y: 0.4, z: 2.0000007}
+  m_Center: {x: 0.000000059604645, y: 0.3, z: 0.00000011920929}
 --- !u!1 &1533954398984724
 GameObject:
   m_ObjectHideFlags: 0

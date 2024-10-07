@@ -20,17 +20,33 @@ public class PlayerTrapGeneric : MonoBehaviour
         [SerializeField]
         private float angerOnTrapped = 10f;
 
-        [SerializeField]
-        private AnimationClip trappedAnimation;
+        [Header("Activation")]
         [SerializeField]
         private string isActivatedBy = "";
+        [SerializeField]
+        private bool consumesItem = true;
         
-
+        [Header("Triggering")]
+        [SerializeField]
+        private Collider triggerCollider;
         private Animator trapAnimator;
         [SerializeField]
         private bool hasBeenActivated = false;
         private bool stillColliding = false;
         private GameObject triggerer;
+
+        [Header("Animations")]
+        [SerializeField]
+        private AnimationClip armedAnimation;
+        [SerializeField]
+        private AnimationClip unarmedAnimation;
+        [SerializeField]
+        private AnimationClip triggeredAnimation;
+        [SerializeField]
+        private bool triggeredAnimationReversed = false;
+        [SerializeField]
+        private AnimationClip personOnTriggeredAnimation;
+
     
         void Awake()
         {
@@ -38,13 +54,23 @@ public class PlayerTrapGeneric : MonoBehaviour
             trapAnimator = GetComponent<Animator>();
             if(trapAnimator == null){
                 Debug.Log(this + " is missing an animator!");
+            } else {
+                AnimatorOverrideController aoc = new(trapAnimator.runtimeAnimatorController);
+                trapAnimator.runtimeAnimatorController = aoc;
+                if(armedAnimation != null) aoc["armed"] = armedAnimation;
+                if(unarmedAnimation != null) aoc["unarmed"] = unarmedAnimation;
+                if(triggeredAnimation != null) aoc["triggered"] = triggeredAnimation;
             }
-            GetComponent<Interactable>().OnInteract.Add(isActivatedBy, () => SetActivated(true));
+            Interactable inter = GetComponent<Interactable>();
+            inter.OnInteract.Add(isActivatedBy != "" ? isActivatedBy : "Empty", () => SetActivated(true));
+            inter.interactables.Add(isActivatedBy != "" ? isActivatedBy : "Empty");
+            if(consumesItem) inter.consumes.Add(isActivatedBy != "" ? isActivatedBy : "Empty");
+
         }
     
         void OnTriggerEnter(Collider other)
         {
-            if (hasBeenActivated && shouldTrigger(other))
+            if (hasBeenActivated && ShouldTrigger(other))
             {
                 stillColliding = true;
                 triggerer = other.gameObject;
@@ -54,7 +80,7 @@ public class PlayerTrapGeneric : MonoBehaviour
     
         void OnTriggerExit(Collider other)
         {
-            if (hasBeenActivated && shouldTrigger(other))
+            if (hasBeenActivated && ShouldTrigger(other))
             {
                 stillColliding = false;
                 StopCoroutine(OpenCloseTrap());
@@ -63,8 +89,8 @@ public class PlayerTrapGeneric : MonoBehaviour
             }
         }
 
-        private bool shouldTrigger(Collider other){
-            return (other.CompareTag("Player") && isPlayerTrap) || (other.CompareTag("Enemy") && !isPlayerTrap);
+        private bool ShouldTrigger(Collider other){
+            return (triggerCollider == null || other.Equals(triggerCollider)) && ((other.CompareTag("Player") && isPlayerTrap) || (other.CompareTag("Enemy") && !isPlayerTrap));
         }
 
         public bool GetActivated(){
@@ -74,12 +100,19 @@ public class PlayerTrapGeneric : MonoBehaviour
         public bool SetActivated(bool activated){
             bool output = hasBeenActivated == activated;
             hasBeenActivated = activated;
+            if(activated){
+                trapAnimator.Play("armed");
+            } else {
+                trapAnimator.Play("unarmed");
+            }
             return output;
         }
     
         IEnumerator OpenCloseTrap(){
             // Play open animation
-            trapAnimator?.SetTrigger("open");
+            //trapAnimator?.SetTrigger("open");
+            trapAnimator.Play("triggered");
+            if(triggeredAnimationReversed) trapAnimator.speed = -1;
 
             // Wait for the close animation to finish
             yield return new WaitForSeconds(triggerTimeBeforeHit);
@@ -89,9 +122,17 @@ public class PlayerTrapGeneric : MonoBehaviour
             {
                 if(isPlayerTrap){
                     // Trigger the player's death using DeathManager
-                    triggerer.GetComponent<DeathManager>()?.Die();
-                } else if(gameObject.TryGetComponent<Anger>(out var angst)) {
-                    angst.ApplyAnger(angerOnTrapped);
+                    if(triggerer.TryGetComponent<DeathManager>(out DeathManager death)) death.Die();
+                } else {
+                    if(triggerer.TryGetComponent<Anger>(out Anger angst)){
+                        angst.ApplyAnger(angerOnTrapped);
+                    }
+                }
+                if(triggerer.TryGetComponent<Animator>(out Animator ani)) {
+                    AnimatorOverrideController aoc = new(ani.runtimeAnimatorController);
+                    ani.runtimeAnimatorController = aoc;
+                    aoc["triggeredTrap"] = personOnTriggeredAnimation;
+                    ani.Play("triggeredTrap");
                 }
             }
 
@@ -100,7 +141,7 @@ public class PlayerTrapGeneric : MonoBehaviour
                 // Wait waitTime seconds
                 yield return new WaitForSeconds(waitTime - triggerTimeBeforeHit);
                 // Play close animation
-                trapAnimator?.SetTrigger("close");
+                trapAnimator?.Play("close");
             }
         }
     }
