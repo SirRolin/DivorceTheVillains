@@ -37,7 +37,7 @@ namespace Assets.HarashSuperVillains.Objects {
             } else {
                 body = gameObject.AddComponent<Rigidbody>();
                 body.mass = 1000000;
-                Invoke(nameof(RemoveRigidBody), 5f);
+                Invoke(nameof(RemoveRigidBody), 5f);    
             }
         }
 
