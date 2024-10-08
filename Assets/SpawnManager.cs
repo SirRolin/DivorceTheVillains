@@ -1,3 +1,4 @@
+using Assets.Scripts.HarashSuperVillains.Player;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour

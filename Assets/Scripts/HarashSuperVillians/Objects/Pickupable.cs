@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using WebSocketSharp;
 
 namespace Assets.HarashSuperVillains.Objects {
     public class Pickupable : MonoBehaviour, IPickupable
@@ -37,7 +36,7 @@ namespace Assets.HarashSuperVillains.Objects {
             } else {
                 body = gameObject.AddComponent<Rigidbody>();
                 body.mass = 1000000;
-                Invoke(nameof(RemoveRigidBody), 5f);
+                Invoke(nameof(RemoveRigidBody), 5f);    
             }
         }
 
