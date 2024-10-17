@@ -299,7 +299,7 @@ Animator:
   m_GameObject: {fileID: 7312288438413860625}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 81496b77035b7e24fa77d8ea6e6ca5b0, type: 2}
+  m_Controller: {fileID: 9100000, guid: df55a9364e5325f4facd0da5525aee28, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -336,6 +336,7 @@ MonoBehaviour:
   armedAnimation: {fileID: 7400000, guid: 2471a99a5abad9f479238870699d6f1f, type: 2}
   unarmedAnimation: {fileID: 7400000, guid: a8fb558bd6e8e6d4e825aa34102a91d0, type: 2}
   triggeredAnimation: {fileID: 0}
+  triggeredAnimationReversed: 0
   personOnTriggeredAnimation: {fileID: 0}
 --- !u!65 &3263423973916919948
 BoxCollider:
@@ -372,6 +373,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactables: []
   consumes: []
+  wantTransparency: 0
+  opacity: 0.3
 --- !u!1 &9208442973192472694
 GameObject:
   m_ObjectHideFlags: 0

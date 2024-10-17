@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using Assets.Scripts.HarashSuperVillains.Objects;
 using Assets.Scripts.HarashSuperVillains.Player;
+using Unity.VisualScripting;
+using UnityEditor.Animations;
 
 public class PlayerTrapGeneric : MonoBehaviour
     {
@@ -54,14 +56,15 @@ public class PlayerTrapGeneric : MonoBehaviour
             // Get the Animator component from the trap
             trapAnimator = GetComponent<Animator>();
             if(trapAnimator == null){
-                Debug.Log(this + " is missing an animator!");
-            } else {
-                AnimatorOverrideController aoc = new(trapAnimator.runtimeAnimatorController);
-                trapAnimator.runtimeAnimatorController = aoc;
-                if(armedAnimation != null) aoc["armed"] = armedAnimation;
-                if(unarmedAnimation != null) aoc["unarmed"] = unarmedAnimation;
-                if(triggeredAnimation != null) aoc["triggered"] = triggeredAnimation;
+                trapAnimator = gameObject.AddComponent<Animator>();
+                trapAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Base Trap");
+                //Debug.LogError(this + " is missing an animator!");
             }
+            AnimatorOverrideController aoc = new(trapAnimator.runtimeAnimatorController);
+            trapAnimator.runtimeAnimatorController = aoc;
+            if(armedAnimation != null) aoc["armed"] = armedAnimation;
+            if(unarmedAnimation != null) aoc["unarmed"] = unarmedAnimation;
+            if(triggeredAnimation != null) aoc["triggered"] = triggeredAnimation;
             Interactable inter = GetComponent<Interactable>();
             inter.OnInteract.Add(isActivatedBy != "" ? isActivatedBy : "Empty", () => SetActivated(true));
             inter.interactables.Add(isActivatedBy != "" ? isActivatedBy : "Empty");
@@ -101,10 +104,12 @@ public class PlayerTrapGeneric : MonoBehaviour
         public bool SetActivated(bool activated){
             bool output = hasBeenActivated == activated;
             hasBeenActivated = activated;
-            if(activated){
-                trapAnimator.Play("armed");
-            } else {
-                trapAnimator.Play("unarmed");
+            if(trapAnimator != null){
+                if(activated){
+                    trapAnimator.Play("armed");
+                } else {
+                    trapAnimator.Play("unarmed");
+                }
             }
             return output;
         }

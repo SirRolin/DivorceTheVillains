@@ -22,6 +22,9 @@ namespace Assets.HarashSuperVillains.Objects {
         public void Pickup(Transform hand)
         {
             transform.SetParent(hand);
+            if(TryGetComponent<Collider>(out Collider col)){
+                col.enabled = false;
+            }
             transform.localPosition = new(0,0,0);
             transform.localScale = pickupSize;
         }
@@ -29,6 +32,9 @@ namespace Assets.HarashSuperVillains.Objects {
         public void Putdown(Vector3 pos, Vector3 norm)
         {
             transform.SetParent(originalTransform);
+            if(TryGetComponent<Collider>(out Collider col)){
+                col.enabled = true;
+            }
             transform.position = pos + Vector3.Scale(norm, new Vector3(originalSize.x / 2, originalSize.y / 2, originalSize.z / 2));
             transform.localScale = originalSize;
             if(TryGetComponent<Rigidbody>(out Rigidbody body)){
