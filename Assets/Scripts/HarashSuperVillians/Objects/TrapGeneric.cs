@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Assets.Scripts.HarashSuperVillains.Objects;
+using Assets.Scripts.HarashSuperVillains.Player;
 
 public class PlayerTrapGeneric : MonoBehaviour
     {

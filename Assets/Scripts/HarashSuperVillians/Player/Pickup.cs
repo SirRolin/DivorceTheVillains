@@ -10,6 +10,8 @@ namespace Assets.Scripts.HarashSuperVillains.Player{
         [Range(0f, 100f)]
         public float reach = 5f;
         public Transform hand;
+        public GameObject crosshairDefault;
+        public GameObject crosshairInteractable;
         IPickupable objInHand = null;
         void OnInteract(InputValue input){
             Ray ray = new(cam.transform.position, cam.transform.forward);
@@ -38,6 +40,27 @@ namespace Assets.Scripts.HarashSuperVillains.Player{
                 }
             }
         }
+
+         void Update(){
+            UpdateCrosshair();
+        }
+
+        void UpdateCrosshair(){
+            Ray ray = new(cam.transform.position, cam.transform.forward);
+            if(Physics.Raycast(ray, out RaycastHit hit, reach)){
+                if(hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable)){
+                    crosshairDefault.SetActive(false);
+                    crosshairInteractable.SetActive(true);
+                } else {
+                    crosshairDefault.SetActive(true);
+                    crosshairInteractable.SetActive(false);
+                }
+            } else {
+                crosshairDefault.SetActive(true);
+                crosshairInteractable.SetActive(false);
+            }
+        }
+
 
         void OnEnable(){
             if(hand == null){
