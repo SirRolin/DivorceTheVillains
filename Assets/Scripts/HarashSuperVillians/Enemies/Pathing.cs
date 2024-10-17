@@ -31,6 +31,8 @@ public class Pathing : MonoBehaviour
         else{
             agent = gameObject.AddComponent<NavMeshAgent>();
             agent.stoppingDistance = 0.5f;
+            agent.acceleration = 50;
+            agent.speed = 1.2f;
         }
         SelectNewDestination();
     }
