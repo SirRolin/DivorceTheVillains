@@ -31,7 +31,6 @@ namespace Assets.Scripts.HarashSuperVillains.Objects{
     ///  Also note, wrong place for this... if a interactable object has 2 types of traps depending on the items given, this can't differenciate between them.
     /// </summary>
     /// TODO: Move this to TrapGeneric.cs in a manner that makes sense.
-    /// Alternatively make the effect in animation as that should be possible without additional code.
     internal void CheckAppearance(bool _isActive){
       AssignColor(transform, _isActive);
       foreach (Transform child in gameObject.transform)
