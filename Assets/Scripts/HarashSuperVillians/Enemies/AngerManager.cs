@@ -29,7 +29,6 @@ public class AngerManager : MonoBehaviour
     private Image AddProgressBarToUI(GameObject npc){
         GameObject angerBar = Instantiate(AngerBarBlueprint, transform);
         Image barFill = angerBar.transform.GetChild(0).GetComponent<Image>();
-        Debug.Log(barFill);
         UpdateFill(barFill, 0, 0);
         return barFill;
     }
