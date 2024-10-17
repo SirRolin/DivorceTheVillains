@@ -24,10 +24,10 @@ public class Anger : MonoBehaviour
 
     public void Awake(){
         Temporary = maxAnger == 0;
-        // Test
+        /*// Test
         if(gameObject.TryGetComponent<EnemyDetector>(out EnemyDetector ed)){
             ed.OnDetect += ((gameObject) => ApplyAnger(2));
-        }
+        }*/
     }
 
     // Update is called once per frame

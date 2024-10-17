@@ -11,7 +11,7 @@ namespace Assets.Scripts.HarashSuperVillains.Objects{
     public bool randomiseColors = false;
     public float inactiveOpacity = 0.3f;
     public float activeOpacity = 1f;
-    public Dictionary<String, Func<bool>> registeredInteractions;
+    public Dictionary<String, Func<bool>> registeredInteractions = new();
 
     void Start (){
       CheckAppearance(false);
