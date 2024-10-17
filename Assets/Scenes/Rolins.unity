@@ -505,6 +505,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1.01
       objectReference: {fileID: 0}
+    - target: {fileID: 2209497049547109468, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
+      propertyPath: isPlayerTrap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2209497049547109468, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
+      propertyPath: isActivatedBy
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2209497049547109468, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
+      propertyPath: triggeredAnimation
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2787926193279346414, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
       propertyPath: m_Name
       value: wholemap
@@ -635,6 +647,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7028002325576175486, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706568406269769671, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
+      propertyPath: m_CullingMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7654917537966173107, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
@@ -1080,7 +1096,13 @@ MonoBehaviour:
   angerOnTrapped: 10
   trappedAnimation: {fileID: 7400002, guid: d89ea37480b6d75458aa38843e9688dc, type: 3}
   isActivatedBy: box
+  consumesItem: 1
+  triggerCollider: {fileID: 0}
   hasBeenActivated: 0
+  armedAnimation: {fileID: 0}
+  unarmedAnimation: {fileID: 0}
+  triggeredAnimation: {fileID: 0}
+  personOnTriggeredAnimation: {fileID: 0}
 --- !u!114 &851028051
 MonoBehaviour:
   m_ObjectHideFlags: 0

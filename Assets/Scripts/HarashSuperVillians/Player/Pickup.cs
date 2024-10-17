@@ -20,6 +20,8 @@ namespace Assets.Scripts.HarashSuperVillains.Player{
                     if(hit.collider.gameObject.TryGetComponent<IPickupable>(out IPickupable pickupObj)){
                         pickupObj.Pickup(hand);
                         objInHand = pickupObj;
+                    } else if(hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable)){
+                        interactable.Interact(null);
                     }
                 }
             } else {
