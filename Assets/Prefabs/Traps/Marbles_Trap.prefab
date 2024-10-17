@@ -492,12 +492,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.4577458, y: 0.37050974, z: 1.4488916}
-  m_Center: {x: 1.6235415, y: -1.6800041, z: -2.4053884}
+  m_Size: {x: 1.1152077, y: 0.10449219, z: 1.0172157}
+  m_Center: {x: 1.5965481, y: -1.8130128, z: -2.3427563}
 --- !u!114 &4972639940213996621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,10 +516,10 @@ MonoBehaviour:
   triggerTimeBeforeHit: 1
   isPlayerTrap: 0
   angerOnTrapped: 10
-  isActivatedBy: 
+  isActivatedBy: Interactable_marble
   consumesItem: 1
   triggerCollider: {fileID: 0}
-  hasBeenActivated: 0
+  hasBeenActivated: 1
   armedAnimation: {fileID: 0}
   unarmedAnimation: {fileID: 0}
   triggeredAnimation: {fileID: 0}
@@ -538,10 +538,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactables:
-  - Trap_Marble
-  consumes: []
-  wantOpacity: 0
-  opacity: 0.3
+  - interactable_marble
+  consumes:
+  - interactable_marble
+  randomiseColors: 1
+  inactiveOpacity: 0.3
+  activeOpacity: 1
 --- !u!1 &2190579861555102656
 GameObject:
   m_ObjectHideFlags: 0

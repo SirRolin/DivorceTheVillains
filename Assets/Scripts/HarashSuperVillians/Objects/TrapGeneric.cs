@@ -65,11 +65,17 @@ public class PlayerTrapGeneric : MonoBehaviour
             if(armedAnimation != null) aoc["armed"] = armedAnimation;
             if(unarmedAnimation != null) aoc["unarmed"] = unarmedAnimation;
             if(triggeredAnimation != null) aoc["triggered"] = triggeredAnimation;
-            Interactable inter = GetComponent<Interactable>();
-            inter.OnInteract.Add(isActivatedBy != "" ? isActivatedBy : "Empty", () => SetActivated(true));
-            inter.interactables.Add(isActivatedBy != "" ? isActivatedBy : "Empty");
-            if(consumesItem) inter.consumes.Add(isActivatedBy != "" ? isActivatedBy : "Empty");
+            
+            Interactable inter;
+            if(!TryGetComponent<Interactable>(out inter))
+                inter = gameObject.AddComponent<Interactable>();
 
+            inter.AddInteraction(
+                isActivatedBy,
+                () => {
+                    SetActivated(true);
+                    return isActivatedBy != "" ? consumesItem : true;
+                });
         }
     
         void OnTriggerEnter(Collider other)
