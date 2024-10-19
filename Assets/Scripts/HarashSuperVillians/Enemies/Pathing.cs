@@ -10,20 +10,27 @@ public class Pathing : MonoBehaviour
     private float idletimeRemaining = 0.0f;
     public float idletimeMin = 0;
     public float idletimeMax = 10;
+    [SerializeField]
+    private Animator Animator;
+
+    private const string isWalking = "isWalking";
+
 
     // Chooses a new destination
     private void SelectNewDestination(){
         idletimeRemaining = -10000;
         if (POIC!=null){
             agent.SetDestination(POIC.GetRandomPOI().position);
+            Animator.SetBool(isWalking, true);
         }
     }
     private void AssignIdletime(){
         idletimeRemaining = Random.Range(idletimeMin, idletimeMax);
+        Animator.SetBool(isWalking, false);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()    
+    void Awake()    
     {
         if(TryGetComponent<NavMeshAgent>(out var NMA)){
             agent = NMA;
@@ -41,16 +48,18 @@ public class Pathing : MonoBehaviour
         if (agent.remainingDistance<=agent.stoppingDistance){
             if (idletimeRemaining<=-10000){
                 AssignIdletime();
+               
 
             }    
             else if(idletimeRemaining<=0){
                 SelectNewDestination();
+                
             }
             else{
                 idletimeRemaining -= Time.deltaTime;
             }
             
         }
-
+        
     }
 }
