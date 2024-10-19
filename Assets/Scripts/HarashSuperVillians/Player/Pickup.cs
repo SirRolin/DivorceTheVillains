@@ -20,16 +20,16 @@ namespace Assets.Scripts.HarashSuperVillains.Player{
                     if(hit.collider.gameObject.TryGetComponent<IPickupable>(out IPickupable pickupObj)){
                         pickupObj.Pickup(hand);
                         objInHand = pickupObj;
+                    } else if(hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable)){
+                        interactable.Interact(null);
                     }
                 }
             } else {
                 if(Physics.Raycast(ray, out RaycastHit hit, reach)){
                     if(hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable)){
                         if(interactable.Interact(objInHand)) {
-                            if(interactable.DoesConsume(objInHand)){
-                                Destroy(((Pickupable) objInHand).gameObject);
-                                objInHand = null;
-                            }
+                            Destroy(objInHand.getGameObject());
+                            objInHand = null;
                         }
                     } else {
                         objInHand.Putdown(hit.point, hit.normal);

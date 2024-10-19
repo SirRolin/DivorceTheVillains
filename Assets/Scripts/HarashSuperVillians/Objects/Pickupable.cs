@@ -9,6 +9,10 @@ namespace Assets.HarashSuperVillains.Objects {
         private Vector3 originalSize;
 
         private Transform originalTransform;
+
+        public GameObject getGameObject(){
+            return gameObject;
+        }
         public string getID()
         {
             return ID;
@@ -22,6 +26,12 @@ namespace Assets.HarashSuperVillains.Objects {
         public void Pickup(Transform hand)
         {
             transform.SetParent(hand);
+            if(TryGetComponent<Collider>(out Collider col)){
+                col.enabled = false;
+            }
+            if(TryGetComponent<Rigidbody>(out Rigidbody body)){
+                RemoveRigidBody();    
+            }
             transform.localPosition = new(0,0,0);
             transform.localScale = pickupSize;
         }
@@ -29,10 +39,14 @@ namespace Assets.HarashSuperVillains.Objects {
         public void Putdown(Vector3 pos, Vector3 norm)
         {
             transform.SetParent(originalTransform);
+            if(TryGetComponent<Collider>(out Collider col)){
+                col.enabled = true;
+            }
             transform.position = pos + Vector3.Scale(norm, new Vector3(originalSize.x / 2, originalSize.y / 2, originalSize.z / 2));
             transform.localScale = originalSize;
             if(TryGetComponent<Rigidbody>(out Rigidbody body)){
-                body.WakeUp();
+                body.isKinematic = false;
+                body.detectCollisions = true;
             } else {
                 body = gameObject.AddComponent<Rigidbody>();
                 body.mass = 1000000;
@@ -47,7 +61,9 @@ namespace Assets.HarashSuperVillains.Objects {
 
         void RemoveRigidBody(){
             if(TryGetComponent<Rigidbody>(out Rigidbody body)){
-                Destroy(body);
+                body.isKinematic = true;
+                body.detectCollisions = false;
+                //Destroy(body);
             }
         }
     }

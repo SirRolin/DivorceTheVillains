@@ -22,14 +22,12 @@ public class EnemyDetector : MonoBehaviour, IEnemyDetector
         if(eyes == null || detectspots == null || detectspots.Count == 0) return;
 
         // Check if any of the spots can be spotted
-        bool detected = false;
         foreach(Transform spot in detectspots){
             ray.origin = eyes.position;
             ray.direction = spot.position - eyes.position;
             if (Physics.Raycast(ray, out RaycastHit hit, viewDistance, ignoreRaycasts) && hit.collider.gameObject.Equals(player))
             {
                 Debug.DrawRay(ray.origin, hit.point - ray.origin, Color.green, 1);
-                detected = true;
                 // Alert
                 OnDetect?.Invoke(player);
                 break;
