@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using rng = UnityEngine.Random;
 
-namespace Assets.Scripts.HarashSuperVillains.Objects{
+namespace Assets.Scripts.HarashSuperVillains.Objects {
   public class Interactable: MonoBehaviour
   {
     public bool randomiseColors = false;
@@ -77,7 +77,6 @@ namespace Assets.Scripts.HarashSuperVillains.Objects{
       } else if(objInHand != null && registeredInteractions.ContainsKey(objInHand.getID())){
         ShouldDelete = registeredInteractions[objInHand.getID()]();
         registeredInteractions.Remove(objInHand.getID());
-        randomiseColors = false;
         CheckAppearance(true);
       }
       return ShouldDelete;
