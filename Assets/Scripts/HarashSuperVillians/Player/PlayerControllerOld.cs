@@ -8,7 +8,7 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Assets.Scripts.HarashSuperVillains.Player {
-    public class PlayerController : MonoBehaviour
+    public class PlayerControllerOld : MonoBehaviour
     {
         [Header("Camera")]
         [SerializeField]
@@ -32,7 +32,6 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
         [Header("Ground Check")]
         [SerializeField] float playerHeight;
         [SerializeField] LayerMask whatIsGround;
-        [SerializeField] ColliderCounter GroundCollider;
         [SerializeField] bool grounded;
         [SerializeField]
         private float groundedFor = 0f;
@@ -50,7 +49,7 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
         private bool hasCoyotteJumped = false;
         [SerializeField]
         [Range(0f,10f)]
-        private float jumpCooldown = 0.1f;
+        private float jumpCooldown = 1f;
         private bool readyToJump = true;
         private bool wantsToJump = false;
 
@@ -65,9 +64,6 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
                 enabled = false;
                 Debug.Log("orientation Missing on " + name);
             }
-            if(GroundCollider!=null){
-                GroundCollider.gameObject.GetComponent<Collider>().includeLayers = whatIsGround;
-            }
         }
 
         void OnDeath(){
@@ -78,32 +74,38 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
         void Update(){
             if(!ragdolled){
                 // ground check
-                if(GroundCollider == null){
-                    grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight/2 + 0.1f, whatIsGround);
-                } else {
-                    grounded = GroundCollider.HasContact();
-                }
+                grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight/2 + 0.2f, whatIsGround);  
 
-                //Movement Direction
+                // drag to slow down while on ground
+                //rb.linearDamping = grounded ? groundDrag : 0;
+
+                // try to move
                 Vector3 moveDir = orientation.forward * currentDir.y + orientation.right * currentDir.x;
+                rb.AddForce(1000f * maxSpeed * Time.deltaTime * moveDir.normalized, ForceMode.Force);
+
+
+                Vector2 perpendicularDir = new Vector2(-moveDir.z, moveDir.x);
+                Vector2 velocityDir = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z);
+                //Debug.Log("perpendicularDir: " + perpendicularDir + " - velocityDir: " + velocityDir + " - dot(move, vel): " + Vector2.Dot(moveDir.normalized, velocityDir.normalized) + " - dot(move, perp): " + Vector2.Dot(moveDir.normalized, perpendicularDir.normalized));
+                if(moveDir.magnitude > 0 && Vector2.Dot(moveDir.normalized, velocityDir.normalized) < Vector2.Dot(moveDir.normalized, perpendicularDir.normalized)){
+                    Vector2 newVelocityDir = Vector2.Dot(velocityDir, perpendicularDir.normalized) * perpendicularDir.normalized * (1f + Time.deltaTime * 0.1f);
+                    rb.linearVelocity = new Vector3(newVelocityDir.x, rb.linearVelocity.y, newVelocityDir.y);
+                }  
 
                 // timer for how long we've been grounded, negative being not grounded (for cayotte time)
                 if(grounded){
-                    if(groundedFor < 0) groundedFor = 0; else groundedFor += Time.deltaTime;
-                    
-                    //// If we were falling, it means we can jump again. - check to counteract a doublejump bug.
+                    if(groundedFor < 0) groundedFor = 0;
+                    groundedFor += Time.deltaTime;
                     if(rb.linearVelocity.y < 0) hasCoyotteJumped = false;
                 } else {
-                    if(groundedFor > 0) groundedFor = 0; else groundedFor -= Time.deltaTime;
+                    if(groundedFor > 0) groundedFor = 0;
+                    groundedFor -= Time.deltaTime;
                 }
 
                 
+                // Limit max speed only if grounded for some time.
                 if(groundedFor > groundedDelay){
-                    // try to move
-                    rb.AddForce(1000f * maxSpeed * Time.deltaTime * moveDir.normalized, ForceMode.Force);
-
-                    // Limit max speed only if grounded for some time.
-                    SpeedControl(moveDir.magnitude);
+                    SpeedControl();
                 }
 
                 // Jumping
@@ -116,11 +118,11 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
             }
         }
 
-        void SpeedControl(float dial){
+        void SpeedControl(){
             // z becomes y
             Vector2 flatVel = new(rb.linearVelocity.x, rb.linearVelocity.z);
-            if(flatVel.magnitude > maxSpeed * dial){
-                Vector2 limitedVel = flatVel.normalized * maxSpeed * dial;
+            if(flatVel.magnitude > maxSpeed){
+                Vector2 limitedVel = flatVel.normalized * maxSpeed;
                 // y becomes z again.
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.y);
             }

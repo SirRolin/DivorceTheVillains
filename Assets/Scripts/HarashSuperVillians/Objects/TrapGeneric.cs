@@ -95,7 +95,7 @@ public class PlayerTrapGeneric : MonoBehaviour
                 stillColliding = false;
                 StopCoroutine(OpenCloseTrap());
                 if(closeOnExit)
-                    trapAnimator.SetTrigger("close");
+                    trapAnimator.Play("close");
             }
         }
 
