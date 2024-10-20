@@ -512,7 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closeOnTime: 1
   closeOnExit: 1
-  waitTime: 2
+  waitTime: 0.2
   triggerTimeBeforeHit: 1
   isPlayerTrap: 0
   angerOnTrapped: 10
