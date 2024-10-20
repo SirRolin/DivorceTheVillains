@@ -15,6 +15,7 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
         // Update is called once per frame
         void Update()
         {
+            
             // if position is lower than altitude check, and you're not already dead, you die.
             if (!isDead && transform.position.y < deathAltitude){
                 isDead = true;
@@ -22,10 +23,11 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
                 if(isDead) OnDeath?.Invoke();
             }
         }
-         public void Die(){
-        isDead = true;
-        OnPreDeath?.Invoke(this);
-        if(isDead) OnDeath?.Invoke();
-    }
+        public void Die()
+        {
+            isDead = true;
+            OnPreDeath?.Invoke(this);
+            if(isDead) OnDeath?.Invoke();
+        }
     }
 }

@@ -3,27 +3,13 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject playerPrefab;
-    private GameObject currentPlayer;
-    public GameObject getCurrentPlayer()
+    private void Start()
     {
-        return currentPlayer;
+        GameManager.Instance.SpawnPlayer();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public GameObject GetCurrentPlayer()
     {
-        SpawnPlayer();
-    }
-
-    private void SpawnPlayer()
-    {
-        currentPlayer = Instantiate(playerPrefab, new Vector3(0,1,0), Quaternion.identity);
-        currentPlayer.GetComponent<DeathManager>().OnDeath += OnDeath;
-    }
-
-    private void OnDeath(){
-        Destroy(currentPlayer);
-        SpawnPlayer();
+        return GameManager.Instance.GetCurrentPlayer();
     }
 }
