@@ -1686,7 +1686,6 @@ GameObject:
   - component: {fileID: 733263414}
   - component: {fileID: 733263413}
   - component: {fileID: 733263412}
-  - component: {fileID: 733263411}
   - component: {fileID: 733263417}
   m_Layer: 0
   m_Name: Interactable_marble
@@ -2092,6 +2091,10 @@ PrefabInstance:
     - target: {fileID: 6000234532239719785, guid: 27d352cbc4dd4504da19c70c96facfe6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680925334167254934, guid: 27d352cbc4dd4504da19c70c96facfe6, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9014529741558229803, guid: 27d352cbc4dd4504da19c70c96facfe6, type: 3}
       propertyPath: m_Enabled

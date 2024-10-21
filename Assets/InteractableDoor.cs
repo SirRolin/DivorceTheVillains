@@ -8,7 +8,12 @@ public class InteractableDoor : MonoBehaviour
     {
         Interactable inter;
         if(!TryGetComponent<Interactable>(out inter))
+        {
             inter = gameObject.AddComponent<Interactable>();
+            inter.inactiveOpacity = 1;
+            inter.activeOpacity = 1;
+            inter.randomiseColors = false;
+        }
 
         inter.AddInteraction(
             "",
