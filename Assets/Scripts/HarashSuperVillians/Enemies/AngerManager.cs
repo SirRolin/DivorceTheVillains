@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
+//using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class AngerManager : MonoBehaviour
 {
     [SerializeField]
     private List<GameObject> angerNPCs = new();
+    public event Action OnCheckForWin;
     public List<GameObject> GetAngerNPCs(){
         return angerNPCs;
     }
@@ -21,6 +23,7 @@ public class AngerManager : MonoBehaviour
         }
         angst.OnUpdate += UpdateFill;
         angst.barFill = AddProgressBarToUI(npc);
+        angst.OnCheckForWin += CheckForWin;
     }
 
     [SerializeField]
@@ -35,6 +38,11 @@ public class AngerManager : MonoBehaviour
 
     private void UpdateFill(Image barFill, float current, float max){
         barFill.fillAmount = max == 0 ? 0 : current / max;
+    }
+
+    private void CheckForWin()
+    {
+        OnCheckForWin?.Invoke();
     }
 
 

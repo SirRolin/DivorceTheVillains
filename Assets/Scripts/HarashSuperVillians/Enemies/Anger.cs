@@ -12,6 +12,7 @@ public class Anger : MonoBehaviour
     private bool Temporary = true;
 
     public event Action<Image, float, float> OnUpdate;
+    public event Action OnCheckForWin;
     public Image barFill;
 
     public void ApplyAnger(float amount){
@@ -20,7 +21,19 @@ public class Anger : MonoBehaviour
             maxAnger = currentAnger;
         }
         OnUpdate?.Invoke(barFill, currentAnger, maxAnger);
+        OnCheckForWin?.Invoke();
     }
+    public float GetAnger() 
+    {
+        return currentAnger;
+    }
+
+    public float GetMaxAnger() 
+    { 
+        return maxAnger;
+    }
+
+    
 
     public void Awake(){
         Temporary = maxAnger == 0;
