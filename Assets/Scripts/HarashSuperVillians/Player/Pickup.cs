@@ -45,14 +45,9 @@ namespace Assets.Scripts.HarashSuperVillains.Player{
 
         void UpdateCrosshair(){
             Ray ray = new(cam.transform.position, cam.transform.forward);
-            if(Physics.Raycast(ray, out RaycastHit hit, reach)){
-                if(hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable)){
-                    crosshairDefault.SetActive(false);
-                    crosshairInteractable.SetActive(true);
-                } else {
-                    crosshairDefault.SetActive(true);
-                    crosshairInteractable.SetActive(false);
-                }
+            if(Physics.Raycast(ray, out RaycastHit hit, reach) && hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable)){
+                crosshairDefault.SetActive(false);
+                crosshairInteractable.SetActive(true);
             } else {
                 crosshairDefault.SetActive(true);
                 crosshairInteractable.SetActive(false);
