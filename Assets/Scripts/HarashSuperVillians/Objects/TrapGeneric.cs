@@ -61,11 +61,11 @@ public class PlayerTrapGeneric : MonoBehaviour
                 //Debug.LogError(this + " is missing an animator!");
             }
             AnimatorOverrideController aoc = new(trapAnimator.runtimeAnimatorController);
-            trapAnimator.runtimeAnimatorController = aoc;
             if(armedAnimation != null) aoc["armed"] = armedAnimation;
             if(unarmedAnimation != null) aoc["unarmed"] = unarmedAnimation;
             if(triggeredAnimation != null) aoc["triggered"] = triggeredAnimation;
-            
+            trapAnimator.runtimeAnimatorController = aoc;
+
             Interactable inter;
             if(!TryGetComponent<Interactable>(out inter))
                 inter = gameObject.AddComponent<Interactable>();
@@ -100,7 +100,7 @@ public class PlayerTrapGeneric : MonoBehaviour
         }
 
         private bool ShouldTrigger(Collider other){
-            return (triggerCollider == null || other.Equals(triggerCollider)) && ((other.CompareTag("Player") && isPlayerTrap) || (other.CompareTag("Enemy") && !isPlayerTrap));
+            return (triggerCollider == null || (other.CompareTag("Player") && isPlayerTrap) || (other.CompareTag("Enemy") && !isPlayerTrap));
         }
 
         public bool GetActivated(){
@@ -123,8 +123,8 @@ public class PlayerTrapGeneric : MonoBehaviour
         IEnumerator OpenCloseTrap(){
             // Play open animation
             //trapAnimator?.SetTrigger("open");
-            trapAnimator.Play("triggered");
             if(triggeredAnimationReversed) trapAnimator.speed = -1;
+            if(triggeredAnimation != null) trapAnimator.Play("triggered");
 
             // Wait for the close animation to finish
             yield return new WaitForSeconds(triggerTimeBeforeHit);
@@ -140,7 +140,7 @@ public class PlayerTrapGeneric : MonoBehaviour
                         angst.ApplyAnger(angerOnTrapped);
                     }
                 }
-                if(triggerer.TryGetComponent<Animator>(out Animator ani)) {
+                if(personOnTriggeredAnimation != null && triggerer.TryGetComponent<Animator>(out Animator ani)) {
                     AnimatorOverrideController aoc = new(ani.runtimeAnimatorController);
                     ani.runtimeAnimatorController = aoc;
                     aoc["triggeredTrap"] = personOnTriggeredAnimation;
