@@ -543,7 +543,7 @@ PrefabInstance:
     - target: {fileID: 1148427143154018557, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
       propertyPath: disabledGroup
       value: 
-      objectReference: {fileID: 1160768022}
+      objectReference: {fileID: 0}
     - target: {fileID: 1347279858673625900, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -819,9 +819,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7028002325576175486, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1160768022}
     - targetCorrespondingSourceObject: {fileID: 6786960872075206072, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 567225902}
@@ -1994,7 +1991,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8075475187919578394, guid: 27d352cbc4dd4504da19c70c96facfe6, type: 3}
       propertyPath: viewDistance
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8680925334167254934, guid: 27d352cbc4dd4504da19c70c96facfe6, type: 3}
       propertyPath: m_WalkableMask
@@ -2025,11 +2022,6 @@ PrefabInstance:
 Camera:
   m_CorrespondingSourceObject: {fileID: 5676794624995869797, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
   m_PrefabInstance: {fileID: 1513745209}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1090349045 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7028002325576175486, guid: c73b896ba0877be43ac20afc75f516cd, type: 3}
-  m_PrefabInstance: {fileID: 415926863}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1108044624 stripped
 GameObject:
@@ -2147,37 +2139,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132144842}
   m_CullTransparentMesh: 1
---- !u!1 &1160768021
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1160768022}
-  m_Layer: 0
-  m_Name: Disabled NPCPOI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1160768022
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1160768021}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1090349045}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1226327494
 GameObject:
   m_ObjectHideFlags: 0
@@ -3089,7 +3050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3374174133008923432, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
       propertyPath: m_Radius
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3374174133008923432, guid: 4d40d0e27bd1e1f4db73094ce21f4f19, type: 3}
       propertyPath: m_IsTrigger
@@ -3303,6 +3264,10 @@ PrefabInstance:
       propertyPath: eyes
       value: 
       objectReference: {fileID: 1237437904}
+    - target: {fileID: 8075475187919578394, guid: 27d352cbc4dd4504da19c70c96facfe6, type: 3}
+      propertyPath: viewDistance
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8680925334167254934, guid: 27d352cbc4dd4504da19c70c96facfe6, type: 3}
       propertyPath: m_BaseOffset
       value: 1

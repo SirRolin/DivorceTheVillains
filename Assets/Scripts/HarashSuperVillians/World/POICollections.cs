@@ -2,26 +2,26 @@ using UnityEngine;
 
 public class POICollections : MonoBehaviour
 {
-    public Transform disabledGroup;
     private readonly object locker = new();
-    public Transform GetRandomPOI(){
+    public Transform GetRandomPOI(Transform previousPOI){
         lock (locker){
             int childCount = transform.childCount;
             int randomIndex = Random.Range(0,childCount);
-            return transform.GetChild(randomIndex);
+            Transform newPOI = transform.GetChild(randomIndex);
+            DisablePOI(newPOI);
+            if(previousPOI != null){
+                EnablePOI(previousPOI);
+            }
+            return newPOI;
         }
     }
 
-    public void DisablePOI(Transform POI)
+    private void DisablePOI(Transform POI)
     {
-        lock (locker){
-            POI.SetParent(null);
-        }
+        POI.SetParent(null);
     }
-    public void EnablePOI(Transform POI)
+    private void EnablePOI(Transform POI)
     {
-        lock (locker){
-            POI.SetParent(transform);
-        }
+        POI.SetParent(transform);
     }
 }

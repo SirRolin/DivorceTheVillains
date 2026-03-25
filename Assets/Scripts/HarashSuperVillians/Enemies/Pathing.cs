@@ -21,12 +21,7 @@ public class Pathing : MonoBehaviour
     private void SelectNewDestination(){
         idletimeRemaining = -10000;
         if (POIC!=null){
-            if(currentPOI != null)
-            {
-                POIC.EnablePOI(currentPOI);
-            }
-            currentPOI = POIC.GetRandomPOI();
-            POIC.DisablePOI(currentPOI);
+            currentPOI = POIC.GetRandomPOI(currentPOI);
             agent.SetDestination(currentPOI.position);
             Animator.SetBool(isWalking, true);
         }
