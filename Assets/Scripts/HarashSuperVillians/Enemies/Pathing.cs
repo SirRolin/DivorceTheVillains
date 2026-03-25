@@ -14,13 +14,20 @@ public class Pathing : MonoBehaviour
     private Animator Animator;
 
     private const string isWalking = "isWalking";
+    private Transform currentPOI = null;
 
 
     // Chooses a new destination
     private void SelectNewDestination(){
         idletimeRemaining = -10000;
         if (POIC!=null){
-            agent.SetDestination(POIC.GetRandomPOI().position);
+            if(currentPOI != null)
+            {
+                POIC.EnablePOI(currentPOI);
+            }
+            currentPOI = POIC.GetRandomPOI();
+            POIC.DisablePOI(currentPOI);
+            agent.SetDestination(currentPOI.position);
             Animator.SetBool(isWalking, true);
         }
     }
