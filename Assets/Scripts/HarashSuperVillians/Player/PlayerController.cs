@@ -52,6 +52,7 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
         [Range(0f,10f)]
         private float jumpCooldown = 0.1f;
         private bool readyToJump = true;
+        [SerializeField]
         private bool wantsToJump = false;
 
 
@@ -92,7 +93,7 @@ namespace Assets.Scripts.HarashSuperVillains.Player {
                     if(groundedFor < 0) groundedFor = 0; else groundedFor += Time.deltaTime;
                     
                     //// If we were falling, it means we can jump again. - check to counteract a doublejump bug.
-                    if(rb.linearVelocity.y < 0) hasCoyotteJumped = false;
+                    if(rb.linearVelocity.y <= 0) hasCoyotteJumped = false;
                 } else {
                     if(groundedFor > 0) groundedFor = 0; else groundedFor -= Time.deltaTime;
                 }

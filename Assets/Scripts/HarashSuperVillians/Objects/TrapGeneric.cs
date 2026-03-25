@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections;
 using Assets.Scripts.HarashSuperVillains.Objects;
 using Assets.Scripts.HarashSuperVillains.Player;
-using Unity.VisualScripting;
-using UnityEditor.Animations;
 
 public class PlayerTrapGeneric : MonoBehaviour
     {
@@ -124,7 +122,9 @@ public class PlayerTrapGeneric : MonoBehaviour
             // Play open animation
             //trapAnimator?.SetTrigger("open");
             if(triggeredAnimationReversed) trapAnimator.speed = -1;
-            if(triggeredAnimation != null) trapAnimator.Play("triggered");
+            if(triggeredAnimation != null) {
+                trapAnimator.Play("triggered");
+            }
 
             // Wait for the close animation to finish
             yield return new WaitForSeconds(triggerTimeBeforeHit);
