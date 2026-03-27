@@ -1,4 +1,7 @@
+using System;
+using System.Linq;
 using Assets.HarashSuperVillains.Objects;
+using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Interactable = Assets.Scripts.HarashSuperVillains.Objects.Interactable;
@@ -39,20 +42,21 @@ namespace Assets.Scripts.HarashSuperVillains.Player{
             }
         }
 
-         void Update(){
+        void Update(){
             UpdateCrosshair();
         }
+
 
         void UpdateCrosshair(){
             Ray ray = new(cam.transform.position, cam.transform.forward);
             if(Physics.Raycast(ray, out RaycastHit hit, reach)){
-                if(hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable)){
-                    crosshairDefault.SetActive(false);
-                    crosshairInteractable.SetActive(true);
-                } else {
-                    crosshairDefault.SetActive(true);
-                    crosshairInteractable.SetActive(false);
-                }
+                ////Can interact or pickup
+                bool isInteractable = 
+                        (hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable) 
+                        && (interactable.registeredInteractions.ContainsKey("") || (objInHand != null && interactable.registeredInteractions.ContainsKey(objInHand.getID()))))
+                        || (hit.collider.gameObject.TryGetComponent<IPickupable>(out IPickupable ipick));
+                crosshairDefault.SetActive(!isInteractable);
+                crosshairInteractable.SetActive(isInteractable);
             } else {
                 crosshairDefault.SetActive(true);
                 crosshairInteractable.SetActive(false);
@@ -61,9 +65,7 @@ namespace Assets.Scripts.HarashSuperVillains.Player{
 
 
         void OnEnable(){
-            if(hand == null){
-                enabled = false;
-            }
+            enabled = (hand != null);
         }
     }
 }

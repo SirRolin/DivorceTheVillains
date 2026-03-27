@@ -18,7 +18,6 @@ public class InteractableDoor : MonoBehaviour
             });
     }
 
-    // Update is called once per frame
     void ToggleDoor()
     {
         
