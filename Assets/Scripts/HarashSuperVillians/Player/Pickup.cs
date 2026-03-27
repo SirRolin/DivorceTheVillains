@@ -53,10 +53,12 @@ namespace Assets.Scripts.HarashSuperVillains.Player{
                 ////Can interact or pickup
                 bool isInteractable = 
                         (hit.collider.gameObject.TryGetComponent<Interactable>(out Interactable interactable) 
-                        && (interactable.registeredInteractions.ContainsKey("") || (objInHand != null && interactable.registeredInteractions.ContainsKey(objInHand.getID()))))
-                        || (hit.collider.gameObject.TryGetComponent<IPickupable>(out IPickupable ipick));
-                crosshairDefault.SetActive(!isInteractable);
-                crosshairInteractable.SetActive(isInteractable);
+                        && (interactable.registeredInteractions.ContainsKey("") || (objInHand != null && interactable.registeredInteractions.ContainsKey(objInHand.getID()))));
+                bool isPickupable = (hit.collider.gameObject.TryGetComponent<IPickupable>(out IPickupable ipick));
+                bool flag1 = isInteractable || isPickupable;
+
+                crosshairDefault.SetActive(!flag1);
+                crosshairInteractable.SetActive(flag1);
             } else {
                 crosshairDefault.SetActive(true);
                 crosshairInteractable.SetActive(false);
